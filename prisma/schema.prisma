@@ -13,3 +13,28 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Genre {
+  id     Int     @id @default(autoincrement())
+  name   String
+  movies Movie[]
+}
+
+model Language {
+  id     Int     @id @default(autoincrement())
+  name   String
+  movies Movie[]
+}
+
+model Movie {
+  id           Int       @id @default(autoincrement())
+  title        String
+  releaseDate  DateTime
+  oscarCount   Int?
+  genreId      Int
+  languageId   Int
+
+  genre        Genre     @relation(fields: [genreId], references: [id])
+  language     Language  @relation(fields: [languageId], references: [id])
+}
+
